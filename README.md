@@ -1,8 +1,9 @@
 # IEX Cloud SDK
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/digitonic/iex-cloud-sdk.svg?style=flat-square)](https://packagist.org/packages/digitonic/iex-cloud-sdk)
-[![Build Status](https://img.shields.io/travis/digitonic/iex-cloud-sdk/master.svg?style=flat-square)](https://travis-ci.org/digitonic/iex-cloud-sdk)
-[![Quality Score](https://img.shields.io/scrutinizer/g/digitonic/iex-cloud-sdk.svg?style=flat-square)](https://scrutinizer-ci.com/g/digitonic/iex-cloud-sdk)
+[![Build Status](https://travis-ci.com/digitonic/iex-cloud-sdk.svg?branch=master)](https://travis-ci.com/digitonic/iex-cloud-sdk)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/digitonic/iex-cloud-sdk/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/digitonic/iex-cloud-sdk/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/digitonic/iex-cloud-sdk/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/digitonic/iex-cloud-sdk/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/digitonic/iex-cloud-sdk.svg?style=flat-square)](https://packagist.org/packages/digitonic/iex-cloud-sdk)
 
 A PHP package for accessing the IEX Cloud API. It focuses heavily on the Laravel Framework however it will work in any standalone project with usage of Composer.

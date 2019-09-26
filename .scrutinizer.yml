@@ -1,3 +1,15 @@
+build:
+    environment:
+        php:
+            version: '7.3'
+
+    tests:
+        override:
+            - command: 'vendor/bin/phpunit --coverage-clover=tests/_reports/logs/clover.xml'
+              coverage:
+                  file: 'tests/_reports/logs/clover.xml'
+                  format: 'clover'
+
 filter:
     excluded_paths: [tests/*]
 
@@ -16,4 +28,3 @@ checks:
         fix_line_ending: true
         fix_identation_4spaces: true
         fix_doc_comments: true
-
