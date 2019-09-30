@@ -35,9 +35,9 @@ Below is a list of endpoints to be implemented.
 
 ### Data Apis
 
-- [ ] Data Points
-- [ ] Time Series Inventory
-- [ ] Time Series Query
+- [x] Data Points
+- [x] Time Series Inventory
+- [x] Time Series Query
 
 ### Alternative Data
 
