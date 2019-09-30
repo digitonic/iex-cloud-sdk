@@ -29,6 +29,8 @@ class BaseGet
      */
     public function send(): Collection
     {
+        $this->validateParams();
+
         $request = new Request($this->method, $this->getFullEndpoint());
 
         $response = $this->api->send($request);
@@ -42,5 +44,13 @@ class BaseGet
     protected function getFullEndpoint(): string
     {
         return self::ENDPOINT;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function validateParams()
+    {
+        return true;
     }
 }

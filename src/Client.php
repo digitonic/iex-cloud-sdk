@@ -40,7 +40,7 @@ class Client implements IEXCloud
             return $this->client->send($request);
         }
         catch (ClientException $e) {
-            throw WrongData::invalidValuesProvided($e);
+            throw WrongData::invalidValuesProvided($e->getMessage());
         }
     }
 }
