@@ -24,7 +24,7 @@ Please see [Getting Started](GETTING_STARTED.md) for details.
 
 #### Active Development
 
-Below is a list of endpoints to be implemented.
+Below is a list of endpoints to be implemented. (22/93)
 
 ### Account
 
@@ -64,17 +64,17 @@ Below is a list of endpoints to be implemented.
 - [ ] DEEP Official Price
 - [x] DEEP Security Event
 - [ ] DEEP Short Sale Price Tst Status
-- [ ] DEEP System Event
-- [ ] DEEP Trades
+- [x] DEEP System Event
+- [x] DEEP Trades
 - [ ] DEEP Trade Break
 - [ ] DEEP Trading Status
 - [ ] Listed Regulation SHO Threshold Securities List
 - [ ] Listed Short Interest List
 - [ ] Stats Historical Daily
 - [ ] Stats Historical Summary
-- [ ] Stats Intraday
-- [ ] Stats Recent
-- [ ] Stats Records
+- [x] Stats Intraday
+- [x] Stats Recent
+- [x] Stats Records
 
 ### Reference Data
 

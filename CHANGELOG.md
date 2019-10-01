@@ -2,6 +2,18 @@
 
 All notable changes to `iex-cloud-sdk` will be documented in this file
 
+## v0.1.0-beta.4 - 2019-10-01
+
+### Added
+
+##### Investors Exchange Data
+
+- DEEP System Event
+- DEEP Trades
+- Stats Intraday
+- Stats Recent
+- Stats Records
+
 ## v0.1.0-beta.3 - 2019-10-01
 
 ### Added
