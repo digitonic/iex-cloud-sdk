@@ -24,7 +24,7 @@ Please see [Getting Started](GETTING_STARTED.md) for details.
 
 #### Active Development
 
-Below is a list of endpoints to be implemented. (22/93)
+Below is a list of endpoints to be implemented. (25/97)
 
 ### Account
 
@@ -41,9 +41,12 @@ Below is a list of endpoints to be implemented. (22/93)
 
 ### Alternative Data
 
-- [x] Crypto
 - [ ] Social Sentiment
 - [x] CEO Compensation
+- [x] Crypto Book
+- [ ] Crypto Events
+- [x] Crypto Price
+- [x] Crypto Quote
 
 ### API System Metadata
 
@@ -79,6 +82,7 @@ Below is a list of endpoints to be implemented. (22/93)
 ### Reference Data
 
 - [x] Symbols
+- [x] Crypto Symbols
 - [ ] Search
 - [x] IEX Symbols
 - [ ] International Symbols (Region)
