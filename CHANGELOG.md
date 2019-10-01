@@ -2,7 +2,7 @@
 
 All notable changes to `iex-cloud-sdk` will be documented in this file
 
-## v0.1.0-beta.4 - 2019-10-02
+## v0.1.0-beta.5 - 2019-10-02
 
 ### Added
 
