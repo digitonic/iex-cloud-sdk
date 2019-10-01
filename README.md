@@ -24,7 +24,7 @@ Please see [Getting Started](GETTING_STARTED.md) for details.
 
 #### Active Development
 
-Below is a list of endpoints to be implemented.
+Below is a list of endpoints to be implemented. (22/93)
 
 ### Account
 
