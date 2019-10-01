@@ -13,11 +13,6 @@ class DataPoints extends BaseGet
     /**
      * @var string
      */
-    protected $symbol = '';
-
-    /**
-     * @var string
-     */
     protected $key = '';
 
     /**
@@ -28,18 +23,6 @@ class DataPoints extends BaseGet
     public function __construct(IEXCloud $api)
     {
         parent::__construct($api);
-    }
-
-    /**
-     * @param  string  $symbol
-     *
-     * @return DataPoints
-     */
-    public function setSymbol(string $symbol): self
-    {
-        $this->symbol = $symbol;
-
-        return $this;
     }
 
     /**

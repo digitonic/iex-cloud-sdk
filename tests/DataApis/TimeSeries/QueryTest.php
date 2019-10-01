@@ -65,7 +65,7 @@ class QueryTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_query_the_data_points_endpoint()
+    public function it_can_query_the_time_series_query_endpoint()
     {
         $mock = new MockHandler([$this->response]);
 

@@ -5,6 +5,9 @@ namespace Digitonic\IexCloudSdk\Tests;
 use Digitonic\IexCloudSdk\Facades\Account\Metadata;
 use Digitonic\IexCloudSdk\Facades\Account\Usage;
 use Digitonic\IexCloudSdk\Facades\APISystemMetadata\Status;
+use Digitonic\IexCloudSdk\Facades\DataApis\DataPoints;
+use Digitonic\IexCloudSdk\Facades\DataApis\TimeSeries\Inventory;
+use Digitonic\IexCloudSdk\Facades\DataApis\TimeSeries\Query;
 use Digitonic\IexCloudSdk\Facades\ForexCurrencies\ExchangeRates;
 use Digitonic\IexCloudSdk\Facades\ReferenceData\IEXSymbols;
 use Digitonic\IexCloudSdk\Facades\ReferenceData\Symbols;
@@ -29,6 +32,9 @@ class BaseTestCase extends TestCase
             'ExchangeRates' => ExchangeRates::class,
             'IEXSymbols' => IEXSymbols::class,
             'Symbols' => Symbols::class,
+            'DataPoints' => DataPoints::class,
+            'Inventory' => Inventory::class,
+            'Query' => Query::class,
         ];
     }
 }

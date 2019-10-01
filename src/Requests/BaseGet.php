@@ -15,6 +15,11 @@ class BaseGet
     protected $api;
 
     /**
+     * @var string
+     */
+    protected $symbol = '';
+
+    /**
      * Create constructor.
      *
      * @param  IEXCloud  $api
@@ -22,6 +27,18 @@ class BaseGet
     public function __construct(IEXCloud $api)
     {
         $this->api = $api;
+    }
+
+    /**
+     * @param  string  $symbol
+     *
+     * @return BaseGet
+     */
+    public function setSymbol(string $symbol): self
+    {
+        $this->symbol = $symbol;
+
+        return $this;
     }
 
     /**

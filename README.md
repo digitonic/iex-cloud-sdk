@@ -41,9 +41,9 @@ Below is a list of endpoints to be implemented.
 
 ### Alternative Data
 
-- [ ] Crypto
+- [x] Crypto
 - [ ] Social Sentiment
-- [ ] CEO Compensation
+- [x] CEO Compensation
 
 ### API System Metadata
 
@@ -55,14 +55,14 @@ Below is a list of endpoints to be implemented.
 
 ### Investors Exchange Data
 
-- [ ] TOPS
-- [ ] TOPS last
-- [ ] DEEP
-- [ ] DEEP Auction
-- [ ] DEEP Book
+- [x] TOPS
+- [x] TOPS last
+- [x] DEEP
+- [x] DEEP Auction
+- [x] DEEP Book
 - [ ] DEEP Operational Halt Status
 - [ ] DEEP Official Price
-- [ ] DEEP Security Event
+- [x] DEEP Security Event
 - [ ] DEEP Short Sale Price Tst Status
 - [ ] DEEP System Event
 - [ ] DEEP Trades
