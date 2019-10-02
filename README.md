@@ -24,7 +24,7 @@ Please see [Getting Started](GETTING_STARTED.md) for details.
 
 #### Active Development
 
-Below is a list of endpoints to be implemented. (25/97)
+Below is a list of endpoints to be implemented. (26/97)
 
 ### Account
 
@@ -41,10 +41,10 @@ Below is a list of endpoints to be implemented. (25/97)
 
 ### Alternative Data
 
-- [ ] Social Sentiment
+- [x] Social Sentiment
 - [x] CEO Compensation
 - [x] Crypto Book
-- [ ] Crypto Events
+- [ ] Crypto Events (Streaming Only)
 - [x] Crypto Price
 - [x] Crypto Quote
 

@@ -18,4 +18,12 @@ class SystemEvent extends BaseGet
     {
         parent::__construct($api);
     }
+
+    /**
+     * @return string
+     */
+    protected function getFullEndpoint(): string
+    {
+        return self::ENDPOINT;
+    }
 }

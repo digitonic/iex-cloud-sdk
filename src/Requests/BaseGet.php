@@ -6,7 +6,7 @@ use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Collection;
 
-class BaseGet
+abstract class BaseGet
 {
     const ENDPOINT = '';
 
@@ -55,13 +55,7 @@ class BaseGet
         return collect(json_decode($response->getBody()->getContents()));
     }
 
-    /**
-     * @return string
-     */
-    protected function getFullEndpoint(): string
-    {
-        return self::ENDPOINT;
-    }
+    abstract protected function getFullEndpoint(): string;
 
     /**
      * @return bool
