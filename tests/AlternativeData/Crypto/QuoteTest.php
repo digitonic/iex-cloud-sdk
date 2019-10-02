@@ -1,10 +1,9 @@
 <?php
 
-namespace Digitonic\IexCloudSdk\Tests\AlternativeData;
+namespace Digitonic\IexCloudSdk\Tests\AlternativeData\Crypto;
 
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Facades\AlternativeData\Crypto;
-use Digitonic\IexCloudSdk\Facades\DataApis\DataPoints;
+use Digitonic\IexCloudSdk\Facades\AlternativeData\Crypto\Quote;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
@@ -12,7 +11,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
-class CryptoTest extends BaseTestCase
+class QuoteTest extends BaseTestCase
 {
     /**
      * @var Response
@@ -41,7 +40,7 @@ class CryptoTest extends BaseTestCase
 
         $iexApi = new \Digitonic\IexCloudSdk\Client($client);
 
-        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto($iexApi);
+        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Quote($iexApi);
 
         $this->expectException(WrongData::class);
 
@@ -58,7 +57,7 @@ class CryptoTest extends BaseTestCase
 
         $iexApi = new \Digitonic\IexCloudSdk\Client($client);
 
-        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto($iexApi);
+        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Quote($iexApi);
 
         $response = $crypto->setSymbol('aapl')->send();
 
@@ -77,10 +76,10 @@ class CryptoTest extends BaseTestCase
         $this->app['config']->set('iex-cloud-sdk.secret_key', 'KxDMt9GNVgu6fJUOG0UjH3d4kjZPTxFiXd5RnPhUD8Qz1Q2esNVIFfqmrqRD');
         $this->app['config']->set('iex-cloud-sdk.public_key', 'KxDMt9GNVgu6fJUOG0UjH3d4kjZPTxFiXd5RnPhUD8Qz1Q2esNVIFfqmrqRD');
 
-        Crypto::shouldReceive('setSymbol')
+        Quote::shouldReceive('setSymbol')
             ->once()
             ->andReturnSelf();
 
-        Crypto::setSymbol('aapl');
+        Quote::setSymbol('aapl');
     }
 }
