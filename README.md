@@ -24,7 +24,7 @@ Please see [Getting Started](GETTING_STARTED.md) for details.
 
 #### Active Development
 
-Below is a list of endpoints to be implemented. (25/97)
+Below is a list of endpoints to be implemented. (32/97)
 
 ### Account
 
@@ -41,10 +41,10 @@ Below is a list of endpoints to be implemented. (25/97)
 
 ### Alternative Data
 
-- [ ] Social Sentiment
+- [x] Social Sentiment
 - [x] CEO Compensation
 - [x] Crypto Book
-- [ ] Crypto Events
+- [ ] ~~Crypto Events~~ (Streaming Only)
 - [x] Crypto Price
 - [x] Crypto Quote
 
@@ -63,14 +63,14 @@ Below is a list of endpoints to be implemented. (25/97)
 - [x] DEEP
 - [x] DEEP Auction
 - [x] DEEP Book
-- [ ] DEEP Operational Halt Status
-- [ ] DEEP Official Price
+- [x] DEEP Operational Halt Status
+- [x] DEEP Official Price
 - [x] DEEP Security Event
-- [ ] DEEP Short Sale Price Tst Status
+- [x] DEEP Short Sale Price Test Status
 - [x] DEEP System Event
 - [x] DEEP Trades
-- [ ] DEEP Trade Break
-- [ ] DEEP Trading Status
+- [x] DEEP Trade Break
+- [x] DEEP Trading Status
 - [ ] Listed Regulation SHO Threshold Securities List
 - [ ] Listed Short Interest List
 - [ ] Stats Historical Daily
@@ -83,7 +83,7 @@ Below is a list of endpoints to be implemented. (25/97)
 
 - [x] Symbols
 - [x] Crypto Symbols
-- [ ] Search
+- [x] Search
 - [x] IEX Symbols
 - [ ] International Symbols (Region)
 - [ ] International Symbols (exchange)

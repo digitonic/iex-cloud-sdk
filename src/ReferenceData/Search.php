@@ -5,9 +5,14 @@ namespace Digitonic\IexCloudSdk\ReferenceData;
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Requests\BaseGet;
 
-class IEXSymbols extends BaseGet
+class Search extends BaseGet
 {
-    const ENDPOINT = 'ref-data/iex/symbols';
+    const ENDPOINT = 'search/{term}';
+
+    /**
+     * @var string
+     */
+    protected $term;
 
     /**
      * Create constructor.
@@ -20,10 +25,23 @@ class IEXSymbols extends BaseGet
     }
 
     /**
+     * @param  string  $term
+     *ß
+     *
+     * @return Search
+     */
+    public function setTerm(string $term): self
+    {
+        $this->term = $term;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     protected function getFullEndpoint(): string
     {
-        return self::ENDPOINT;
+        return str_replace('{term}', $this->term, self::ENDPOINT);
     }
 }

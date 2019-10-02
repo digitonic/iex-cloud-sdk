@@ -2,6 +2,26 @@
 
 All notable changes to `iex-cloud-sdk` will be documented in this file
 
+## v0.1.0-beta.6 - 2019-10-03
+
+### Added
+
+##### Alternative Data
+
+- Social Sentiment
+
+##### Investors Exchange Data
+
+- DEEP Operational Halt Status
+- DEEP Official Price
+- DEEP Short Sale Price Test Status
+- DEEP Trade Break
+- DEEP Trading Status
+
+##### Reference Data
+
+- Search
+
 ## v0.1.0-beta.5 - 2019-10-02
 
 ### Added
