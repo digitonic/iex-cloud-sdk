@@ -72,9 +72,7 @@ class CeoCompTest extends BaseTestCase
     /** @test */
     public function it_can_call_the_facade()
     {
-        $this->app['config']->set('iex-cloud-sdk.base_url', 'https://cloud.iexapis.com/v1');
-        $this->app['config']->set('iex-cloud-sdk.secret_key', 'KxDMt9GNVgu6fJUOG0UjH3d4kjZPTxFiXd5RnPhUD8Qz1Q2esNVIFfqmrqRD');
-        $this->app['config']->set('iex-cloud-sdk.public_key', 'KxDMt9GNVgu6fJUOG0UjH3d4kjZPTxFiXd5RnPhUD8Qz1Q2esNVIFfqmrqRD');
+        $this->setConfig();
 
         CeoComp::shouldReceive('setSymbol')
             ->once()
