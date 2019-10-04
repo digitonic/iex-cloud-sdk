@@ -16,6 +16,13 @@ use Orchestra\Testbench\TestCase;
 
 class BaseTestCase extends TestCase
 {
+    protected function setConfig(): void
+    {
+        $this->app['config']->set('iex-cloud-sdk.base_url', 'https://cloud.iexapis.com/v1');
+        $this->app['config']->set('iex-cloud-sdk.secret_key', 'KxDMt9GNVgu6fJUOG0UjH3d4kjZPTxFiXd5RnPhUD8Qz1Q2esNVIFfqmrqRD');
+        $this->app['config']->set('iex-cloud-sdk.public_key', 'KxDMt9GNVgu6fJUOG0UjH3d4kjZPTxFiXd5RnPhUD8Qz1Q2esNVIFfqmrqRD');
+    }
+
     protected function getPackageProviders($app)
     {
         return [

@@ -2,6 +2,24 @@
 
 All notable changes to `iex-cloud-sdk` will be documented in this file
 
+## v0.1.0-beta.7 - 2019-10-04
+
+### Added
+
+##### Reference Data
+
+- International Symbols (Region)
+- International Symbols (Exchange)
+- International Exchanges
+- U.S. Exchanges
+- U.S. Holidays and Trading Days
+- Sectors
+- Tags
+- Mutual Fund Symbols
+- OTC Symbols
+- FX Symbols
+- Options Symbols
+
 ## v0.1.0-beta.6 - 2019-10-03
 
 ### Added

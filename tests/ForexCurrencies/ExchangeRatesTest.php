@@ -37,9 +37,7 @@ class ExchangeRatesTest extends BaseTestCase
     /** @test */
     public function it_can_call_the_facade()
     {
-        $this->app['config']->set('iex-cloud-sdk.base_url', 'https://cloud.iexapis.com/v1');
-        $this->app['config']->set('iex-cloud-sdk.secret_key', 'KxDMt9GNVgu6fJUOG0UjH3d4kjZPTxFiXd5RnPhUD8Qz1Q2esNVIFfqmrqRD');
-        $this->app['config']->set('iex-cloud-sdk.public_key', 'KxDMt9GNVgu6fJUOG0UjH3d4kjZPTxFiXd5RnPhUD8Qz1Q2esNVIFfqmrqRD');
+        $this->setConfig();
 
         $response = new Response(200, [], '{"fromCurrency": "GBP","toCurrency": "EUR","rate": 0.9436089583568926,"date": "2019-09-24"}');
 

@@ -24,7 +24,7 @@ Please see [Getting Started](GETTING_STARTED.md) for details.
 
 #### Active Development
 
-Below is a list of endpoints to be implemented. (32/97)
+Below is a list of endpoints to be implemented. (43/97)
 
 ### Account
 
@@ -85,18 +85,18 @@ Below is a list of endpoints to be implemented. (32/97)
 - [x] Crypto Symbols
 - [x] Search
 - [x] IEX Symbols
-- [ ] International Symbols (Region)
-- [ ] International Symbols (exchange)
-- [ ] International Exchanges
-- [ ] U.S. Exchanges
-- [ ] U.S. Holidays and Trading Days
-- [ ] Sectors
-- [ ] Tags
+- [x] International Symbols (Region)
+- [x] International Symbols (Exchange)
+- [x] International Exchanges
+- [x] U.S. Exchanges
+- [x] U.S. Holidays and Trading Days
+- [x] Sectors
+- [x] Tags
 - [ ] ISIN Mapping
-- [ ] Mutual Fund Symbols
-- [ ] OTC Symbols
-- [ ] FX Symbols
-- [ ] Options Symbols
+- [x] Mutual Fund Symbols
+- [x] OTC Symbols
+- [x] FX Symbols
+- [x] Options Symbols
 
 ### Stocks
 
