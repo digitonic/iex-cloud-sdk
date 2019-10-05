@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\APISystemMetadata;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Status extends BaseGet
+class Status extends BaseRequest
 {
     const ENDPOINT = 'status';
 

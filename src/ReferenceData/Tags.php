@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\ReferenceData;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Tags extends BaseGet
+class Tags extends BaseRequest
 {
     const ENDPOINT = 'ref-data/tags';
 

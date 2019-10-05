@@ -4,9 +4,9 @@ namespace Digitonic\IexCloudSdk\ReferenceData;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class RegionSymbols extends BaseGet
+class RegionSymbols extends BaseRequest
 {
     const ENDPOINT = 'ref-data/region/{region}/symbols';
 

@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\ReferenceData;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class MutualFundSymbols extends BaseGet
+class MutualFundSymbols extends BaseRequest
 {
     const ENDPOINT = 'ref-data/mutual-funds/symbols';
 

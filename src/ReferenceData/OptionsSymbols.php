@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\ReferenceData;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class OptionsSymbols extends BaseGet
+class OptionsSymbols extends BaseRequest
 {
     const ENDPOINT = 'ref-data/options/symbols';
 

@@ -4,9 +4,9 @@ namespace Digitonic\IexCloudSdk\AlternativeData;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class CeoComp extends BaseGet
+class CeoComp extends BaseRequest
 {
     const ENDPOINT = 'stock/{symbol}/ceo-compensation';
 

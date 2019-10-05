@@ -4,9 +4,9 @@ namespace Digitonic\IexCloudSdk\InvestorsExchangeData\Deep;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class SecurityEvent extends BaseGet
+class SecurityEvent extends BaseRequest
 {
     const ENDPOINT = 'deep/security-event?symbols={symbol}';
 

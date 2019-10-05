@@ -1,14 +1,14 @@
 <?php
 
-namespace Digitonic\IexCloudSdk\AlternativeData\Crypto;
+namespace Digitonic\IexCloudSdk\Stocks;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Quote extends BaseRequest
+class AdvancedStats extends BaseRequest
 {
-    const ENDPOINT = 'crypto/{symbol}/quote';
+    const ENDPOINT = 'stock/{symbol}/advanced-stats';
 
     /**
      * Create constructor.

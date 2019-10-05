@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\InvestorsExchangeData\Stats;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Records extends BaseGet
+class Records extends BaseRequest
 {
     const ENDPOINT = 'stats/records';
 

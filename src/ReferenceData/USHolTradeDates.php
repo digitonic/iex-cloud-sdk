@@ -4,9 +4,9 @@ namespace Digitonic\IexCloudSdk\ReferenceData;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class USHolTradeDates extends BaseGet
+class USHolTradeDates extends BaseRequest
 {
     const ENDPOINT = 'ref-data/us/dates/{type}/{direction}/{last}/{startDate}';
 

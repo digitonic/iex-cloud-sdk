@@ -4,9 +4,9 @@ namespace Digitonic\IexCloudSdk\DataApis\TimeSeries;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Query extends BaseGet
+class Query extends BaseRequest
 {
     const ENDPOINT = 'time-series/{id}/{key}/{subKey}';
 

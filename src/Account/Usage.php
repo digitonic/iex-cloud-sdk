@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\Account;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Usage extends BaseGet
+class Usage extends BaseRequest
 {
     const ENDPOINT = 'account/usage';
 

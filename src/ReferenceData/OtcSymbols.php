@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\ReferenceData;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class OtcSymbols extends BaseGet
+class OtcSymbols extends BaseRequest
 {
     const ENDPOINT = 'ref-data/otc/symbols';
 

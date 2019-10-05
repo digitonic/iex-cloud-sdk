@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\InvestorsExchangeData\Stats;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Intraday extends BaseGet
+class Intraday extends BaseRequest
 {
     const ENDPOINT = 'stats/intraday';
 

@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\InvestorsExchangeData\Deep;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class SystemEvent extends BaseGet
+class SystemEvent extends BaseRequest
 {
     const ENDPOINT = 'deep/system-event';
 

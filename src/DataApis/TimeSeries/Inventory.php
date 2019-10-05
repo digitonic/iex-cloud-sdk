@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\DataApis\TimeSeries;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Inventory extends BaseGet
+class Inventory extends BaseRequest
 {
     const ENDPOINT = 'time-series';
 

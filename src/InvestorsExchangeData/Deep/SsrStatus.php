@@ -4,9 +4,9 @@ namespace Digitonic\IexCloudSdk\InvestorsExchangeData\Deep;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class SsrStatus extends BaseGet
+class SsrStatus extends BaseRequest
 {
     const ENDPOINT = 'deep/ssr-status?symbols={symbols}';
 

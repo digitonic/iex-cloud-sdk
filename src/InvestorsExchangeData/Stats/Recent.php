@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\InvestorsExchangeData\Stats;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Recent extends BaseGet
+class Recent extends BaseRequest
 {
     const ENDPOINT = 'stats/recent';
 

@@ -4,9 +4,9 @@ namespace Digitonic\IexCloudSdk\AlternativeData\Crypto;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Price extends BaseGet
+class Price extends BaseRequest
 {
     const ENDPOINT = 'crypto/{symbol}/price';
 

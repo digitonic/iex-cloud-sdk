@@ -100,9 +100,9 @@ Below is a list of endpoints to be implemented. (43/97)
 
 ### Stocks
 
-- [ ] Advanced Stats
-- [ ] Balance Sheet
-- [ ] Batch Requests
+- [x] Advanced Stats
+- [x] Balance Sheet
+- [x] Batch Requests
 - [ ] Book
 - [ ] Cash Flow
 - [ ] Collections

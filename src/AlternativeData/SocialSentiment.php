@@ -4,9 +4,9 @@ namespace Digitonic\IexCloudSdk\AlternativeData;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class SocialSentiment extends BaseGet
+class SocialSentiment extends BaseRequest
 {
     const ENDPOINT = 'stock/{symbol}/sentiment/{type}/{date}';
 

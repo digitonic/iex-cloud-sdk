@@ -4,9 +4,9 @@ namespace Digitonic\IexCloudSdk\DataApis;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class DataPoints extends BaseGet
+class DataPoints extends BaseRequest
 {
     const ENDPOINT = 'data-points/{symbol}/{key}';
 

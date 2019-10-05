@@ -3,37 +3,27 @@
 namespace Digitonic\IexCloudSdk\Requests;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
+use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Collection;
 
-abstract class BaseGet
+abstract class BaseRequest
 {
     const ENDPOINT = '';
 
     protected $method = 'GET';
 
+    protected $payload = [];
+
     protected $api;
 
-    /**
-     * @var string
-     */
     protected $symbol = '';
 
-    /**
-     * Create constructor.
-     *
-     * @param  IEXCloud  $api
-     */
     public function __construct(IEXCloud $api)
     {
         $this->api = $api;
     }
 
-    /**
-     * @param  string  $symbol
-     *
-     * @return BaseGet
-     */
     public function setSymbol(string $symbol): self
     {
         $this->symbol = $symbol;
@@ -41,25 +31,37 @@ abstract class BaseGet
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function send(): Collection
     {
         $this->validateParams();
 
-        $request = new Request($this->method, $this->getFullEndpoint());
+        $request = new Request($this->method, $this->getFullEndpoint(), [], json_encode($this->payload));
 
         $response = $this->api->send($request);
 
         return collect(json_decode($response->getBody()->getContents()));
     }
 
+    public function get(): Collection
+    {
+        $this->method = 'GET';
+
+        return $this->send();
+    }
+
+    public function post(): Collection
+    {
+        $this->method = 'POST';
+
+        if (empty($this->payload)) {
+            throw WrongData::invalidValuesProvided('Payload required to perform a POST request');
+        }
+
+        return $this->send();
+    }
+
     abstract protected function getFullEndpoint(): string;
 
-    /**
-     * @return bool
-     */
     protected function validateParams()
     {
         return true;

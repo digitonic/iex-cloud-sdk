@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\ReferenceData;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class CryptoSymbols extends BaseGet
+class CryptoSymbols extends BaseRequest
 {
     const ENDPOINT = 'ref-data/crypto/symbols';
 

@@ -5,9 +5,9 @@ namespace Digitonic\IexCloudSdk\InvestorsExchangeData\Deep;
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\InvestorsExchangeData\Last;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class Trades extends BaseGet
+class Trades extends BaseRequest
 {
     const ENDPOINT = 'deep/trades?symbols={symbols}';
 

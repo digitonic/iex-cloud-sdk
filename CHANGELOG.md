@@ -2,6 +2,16 @@
 
 All notable changes to `iex-cloud-sdk` will be documented in this file
 
+## v0.1.0-beta.8 - 2019-10-05
+
+### Added
+
+##### Stocks
+
+- Advanced Stats
+- Balance Sheet
+- Batch Requests
+
 ## v0.1.0-beta.7 - 2019-10-04
 
 ### Added

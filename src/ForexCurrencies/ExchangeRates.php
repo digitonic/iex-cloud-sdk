@@ -3,9 +3,9 @@
 namespace Digitonic\IexCloudSdk\ForexCurrencies;
 
 use Digitonic\IexCloudSdk\Contracts\IEXCloud;
-use Digitonic\IexCloudSdk\Requests\BaseGet;
+use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class ExchangeRates extends BaseGet
+class ExchangeRates extends BaseRequest
 {
     const ENDPOINT = 'fx/rate/{from}/{to}';
 
