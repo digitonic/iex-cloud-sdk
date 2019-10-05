@@ -4,19 +4,11 @@ namespace Digitonic\IexCloudSdk\Tests\APISystemMetadata;
 
 use Digitonic\IexCloudSdk\Facades\APISystemMetadata\Status;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class StatusTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -27,21 +19,16 @@ class StatusTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '{"status": "up","version": "1.9","time": 1569418156693}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_can_query_the_status_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $status = new \Digitonic\IexCloudSdk\APISystemMetadata\Status($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $status = new \Digitonic\IexCloudSdk\APISystemMetadata\Status($iexApi);
-
-        $response = $status->send();
+        $response = $status->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(3, $response);
@@ -53,11 +40,11 @@ class StatusTest extends BaseTestCase
     {
         $this->setConfig();
 
-        Status::shouldReceive('send')
+        Status::shouldReceive('get')
             ->once()
             ->andReturn(collect(json_decode($this->response->getBody()->getContents())));
 
-        $response = Status::send();
+        $response = Status::get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(3, $response);

@@ -2,12 +2,10 @@
 
 namespace Digitonic\IexCloudSdk\Tests\ReferenceData;
 
+use Digitonic\IexCloudSdk\Client;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\ReferenceData\USHolTradeDates;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -15,24 +13,14 @@ use Illuminate\Support\Collection;
 class USHolTradeDatesTest extends BaseTestCase
 {
     /**
-     * @var Response
+     * @var Client
      */
-    private $response;
+    private $clientHoliday;
 
     /**
-     * @var Response
+     * @var Client
      */
-    private $defaultResponse;
-
-    /**
-     * @var Response
-     */
-    private $holidayResponse;
-
-    /**
-     * @var Response
-     */
-    private $holidayResponse5;
+    private $clientHoliday5;
 
     /**
      * Setup the test environment.
@@ -43,58 +31,41 @@ class USHolTradeDatesTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->defaultResponse = new Response(200, [], '[{"date": "2019-10-07","settlementDate": "2019-10-17"}]');
-        $this->holidayResponse = new Response(200, [], '[{"date": "2019-11-28","settlementDate": "2019-12-16"}]');
-        $this->holidayResponse5 = new Response(200, [], '[{"date": "2019-11-28","settlementDate": "2019-12-09" },{"date": "2019-12-25","settlementDate": "2019-12-30"},{"date": "2020-01-01", "settlementDate": "2020-01-04" },{"date": "2020-01-20","settlementDate": "2020-01-26"},{"date": "2020-02-17", "settlementDate": "2020-03-05"}]');
+        $defaultResponse = new Response(200, [], '[{"date": "2019-10-07","settlementDate": "2019-10-17"}]');
+        $holidayResponse = new Response(200, [], '[{"date": "2019-11-28","settlementDate": "2019-12-16"}]');
+        $holidayResponse5 = new Response(200, [], '[{"date": "2019-11-28","settlementDate": "2019-12-09" },{"date": "2019-12-25","settlementDate": "2019-12-30"},{"date": "2020-01-01", "settlementDate": "2020-01-04" },{"date": "2020-01-20","settlementDate": "2020-01-26"},{"date": "2020-02-17", "settlementDate": "2020-03-05"}]');
+
+        $this->client = $this->setupMockedClient($defaultResponse);
+        $this->clientHoliday = $this->setupMockedClient($holidayResponse);
+        $this->clientHoliday5 = $this->setupMockedClient($holidayResponse5);
     }
 
     /** @test */
     public function it_should_fail_when_type_not_matching_available()
     {
-        $mock = new MockHandler([$this->defaultResponse]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($iexApi);
+        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($this->client);
 
         $this->expectException(WrongData::class);
 
-        $usHolTradeDates->setType('blah')->send();
+        $usHolTradeDates->setType('blah')->get();
     }
 
     /** @test */
     public function it_should_fail_when_direction_not_matching_available()
     {
-        $mock = new MockHandler([$this->defaultResponse]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($iexApi);
+        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($this->client);
 
         $this->expectException(WrongData::class);
 
-        $usHolTradeDates->setDirection('blah')->send();
+        $usHolTradeDates->setDirection('blah')->get();
     }
 
     /** @test */
     public function it_can_query_the_default_us_holiday_trades_date_symbols_endpoint()
     {
-        $mock = new MockHandler([$this->defaultResponse]);
+        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($iexApi);
-
-        $response = $usHolTradeDates->setDirection('last')->send();
+        $response = $usHolTradeDates->setDirection('last')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(1, $response);
@@ -105,16 +76,9 @@ class USHolTradeDatesTest extends BaseTestCase
     /** @test */
     public function it_can_query_the_holiday_us_holiday_trades_date_symbols_endpoint()
     {
-        $mock = new MockHandler([$this->holidayResponse]);
+        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($this->clientHoliday);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($iexApi);
-
-        $response = $usHolTradeDates->setType('holiday')->send();
+        $response = $usHolTradeDates->setType('holiday')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(1, $response);
@@ -125,16 +89,9 @@ class USHolTradeDatesTest extends BaseTestCase
     /** @test */
     public function it_can_query_the_holiday_us_holiday_trades_date_symbols_endpoint_with_5_last_set()
     {
-        $mock = new MockHandler([$this->holidayResponse5]);
+        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($this->clientHoliday5);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($iexApi);
-
-        $response = $usHolTradeDates->setType('holiday')->setLast(5)->send();
+        $response = $usHolTradeDates->setType('holiday')->setLast(5)->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(5, $response);
@@ -145,16 +102,9 @@ class USHolTradeDatesTest extends BaseTestCase
     /** @test */
     public function it_can_specify_a_start_date()
     {
-        $mock = new MockHandler([$this->holidayResponse]);
+        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($this->clientHoliday);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($iexApi);
-
-        $response = $usHolTradeDates->setType('holiday')->setStartDate('20191003')->send();
+        $response = $usHolTradeDates->setType('holiday')->setStartDate('20191003')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(1, $response);
@@ -168,14 +118,7 @@ class USHolTradeDatesTest extends BaseTestCase
     /** @test */
     public function it_validates_correct_date_format()
     {
-        $mock = new MockHandler([$this->holidayResponse]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($iexApi);
+        $usHolTradeDates = new \Digitonic\IexCloudSdk\ReferenceData\USHolTradeDates($this->clientHoliday);
 
         $this->expectException(WrongData::class);
 

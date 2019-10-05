@@ -17,7 +17,7 @@ class ConfigTest extends BaseTestCase
 
         $this->expectException(InvalidConfig::class);
 
-        Metadata::send();
+        Metadata::get();
     }
 
     /** @test */
@@ -27,7 +27,7 @@ class ConfigTest extends BaseTestCase
 
         $this->expectException(InvalidConfig::class);
 
-        Usage::send();
+        Usage::get();
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class ConfigTest extends BaseTestCase
 
         $this->expectException(InvalidConfig::class);
 
-        Metadata::send();
+        Metadata::get();
     }
 
     /** @test */

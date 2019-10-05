@@ -13,11 +13,6 @@ use Illuminate\Support\Collection;
 class CryptoSymbolsTest extends BaseTestCase
 {
     /**
-     * @var Response
-     */
-    private $response;
-
-    /**
      * Setup the test environment.
      *
      * @return void
@@ -27,21 +22,16 @@ class CryptoSymbolsTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '[{"symbol": "BTCUSD","name": "otUcS iBo tinD","exchange": null,"date": "2019-10-01","type": "crypto","region": "US","currency": "USD","isEnabled": true},{"symbol": "ETHUSD","name": "trDtuShUeeo Em ","exchange": null,"date": "2019-10-01","type": "crypto","region": "US","currency": "USD","isEnabled": true}]');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_can_query_the_crypto_symbols_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $symbols = new \Digitonic\IexCloudSdk\ReferenceData\CryptoSymbols($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $symbols = new \Digitonic\IexCloudSdk\ReferenceData\CryptoSymbols($iexApi);
-
-        $response = $symbols->send();
+        $response = $symbols->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(2, $response);
@@ -54,15 +44,14 @@ class CryptoSymbolsTest extends BaseTestCase
     {
         $this->setConfig();
 
-        CryptoSymbols::shouldReceive('send')
+        CryptoSymbols::shouldReceive('get')
             ->once()
             ->andReturn(collect(json_decode($this->response->getBody()->getContents())));
 
-        $response = CryptoSymbols::send();
+        $response = CryptoSymbols::get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertEquals('BTCUSD', $response->first()->symbol);
         $this->assertEquals('otUcS iBo tinD', $response->first()->name);
-
     }
 }

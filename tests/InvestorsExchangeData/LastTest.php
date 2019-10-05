@@ -4,21 +4,12 @@ namespace Digitonic\IexCloudSdk\Tests\InvestorsExchangeData;
 
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\InvestorsExchangeData\Last;
-use Digitonic\IexCloudSdk\Facades\InvestorsExchangeData\Tops;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class LastTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -29,38 +20,26 @@ class LastTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '[{"symbol": "AAPL","price": 224.31,"size": 72,"time": 1637402059397},{"symbol": "MSFT","price": 145.79,"size": 2,"time": 1590899367463}]');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol_or_symbols()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $last = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Last($iexApi);
+        $last = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Last($this->client);
 
         $this->expectException(WrongData::class);
 
-        $last->send();
+        $last->get();
     }
 
     /** @test */
     public function it_can_query_the_tops_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $last = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Last($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $last = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Last($iexApi);
-
-        $response = $last->setSymbols('aapl')->send();
+        $response = $last->setSymbols('aapl')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 

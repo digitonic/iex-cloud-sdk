@@ -26,7 +26,7 @@ The IEX API client can now be used as a dependency for communicating with variou
 
 ```php
 $metadata = new \Digitonic\IexCloudSdk\Account\Metadata($iexApi);
-$response = $metadata->send();
+$response = $metadata->get();
 
 print_r($response);
 ```
@@ -75,14 +75,14 @@ The IoC container will automatically resolve the `IEX API` dependencies for you 
 // From a constructor
 class FooClass {
     public function __construct(Digitonic\IexCloudSdk\Account\Metadata $metadata) {
-       $response = $metadata->send();
+       $response = $metadata->get();
     }
 }
 
 // From a method
 class BarClass {
     public function barMethod(Digitonic\IexCloudSdk\Account\Metadata $metadata) {
-       $response = $metadata->send();
+       $response = $metadata->get();
     }
 }
 ```
@@ -90,5 +90,5 @@ class BarClass {
 Alternatively you may use the facades directly which provides a much faster and fluent interface.
 
 ```php
-$response = Digitonic\IexCloudSdk\Facades\Account\Metadata::send();
+$response = Digitonic\IexCloudSdk\Facades\Account\Metadata::get();
 ```

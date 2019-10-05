@@ -5,19 +5,11 @@ namespace Digitonic\IexCloudSdk\Tests\InvestorsExchangeData\Deep;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\InvestorsExchangeData\Deep\OfficialPrice;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class OfficialPriceTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -28,38 +20,26 @@ class OfficialPriceTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '{"SNAP": {"priceType": "Open","price": 1.05,"timestamp": 1494595800005}}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $price = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\OfficialPrice($iexApi);
+        $price = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\OfficialPrice($this->client);
 
         $this->expectException(WrongData::class);
 
-        $price->send();
+        $price->get();
     }
 
     /** @test */
     public function it_can_query_the_official_price_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $price = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\OfficialPrice($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $price = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\OfficialPrice($iexApi);
-
-        $response = $price->setSymbols('SNAP')->send();
+        $response = $price->setSymbols('SNAP')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 

@@ -2,26 +2,19 @@
 
 namespace Digitonic\IexCloudSdk\Tests\AlternativeData;
 
+use Digitonic\IexCloudSdk\Client;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\AlternativeData\SocialSentiment;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class SocialSentimentTest extends BaseTestCase
 {
     /**
-     * @var Response
+     * @var Client
      */
-    private $response;
-
-    /**
-     * @var Response
-     */
-    private $minuteResponse;
+    private $clientMinute;
 
     /**
      * Setup the test environment.
@@ -32,60 +25,42 @@ class SocialSentimentTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->response = new Response(200, [], '{"sentiment": -0.06526978088510728,"totalScores": 358,"positive": 0.72,"negative": 0.31}');
+        $response = new Response(200, [], '{"sentiment": -0.06526978088510728,"totalScores": 358,"positive": 0.72,"negative": 0.31}');
 
-        $this->minuteResponse = new Response(200, [], '[{"sentiment": 0.4723,"totalScores": 2,"positive": 1,"negative": 0,"minute": "0001"},{"sentiment": -0.8075,"totalScores": 1,"positive": 0,"negative": 1,"minute": "0004"},{"sentiment": 0,"totalScores": 1,"positive": 1,"negative": 0,"minute": "0015"}]');
+        $minuteResponse = new Response(200, [], '[{"sentiment": 0.4723,"totalScores": 2,"positive": 1,"negative": 0,"minute": "0001"},{"sentiment": -0.8075,"totalScores": 1,"positive": 0,"negative": 1,"minute": "0004"},{"sentiment": 0,"totalScores": 1,"positive": 1,"negative": 0,"minute": "0015"}]');
+
+        $this->client = $this->setupMockedClient($response);
+        $this->clientMinute = $this->setupMockedClient($minuteResponse);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $social = new \Digitonic\IexCloudSdk\AlternativeData\SocialSentiment($iexApi);
+        $social = new \Digitonic\IexCloudSdk\AlternativeData\SocialSentiment($this->client);
 
         $this->expectException(WrongData::class);
 
-        $social->send();
+        $social->get();
     }
 
     /** @test */
     public function it_should_fail_for_wrong_date_format()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $social = new \Digitonic\IexCloudSdk\AlternativeData\SocialSentiment($iexApi);
+        $social = new \Digitonic\IexCloudSdk\AlternativeData\SocialSentiment($this->client);
 
         $this->expectException(WrongData::class);
 
-        $social->setDate('2019-09-30')->setSymbol('aapl')->send();
+        $social->setDate('2019-09-30')->setSymbol('aapl')->get();
     }
 
     /** @test */
     public function it_can_query_the_social_sentiment_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $social = new \Digitonic\IexCloudSdk\AlternativeData\SocialSentiment($iexApi);
+        $social = new \Digitonic\IexCloudSdk\AlternativeData\SocialSentiment($this->client);
 
         $response = $social->setDate('20190930')
             ->setSymbol('aapl')
-            ->send();
+            ->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 
@@ -98,19 +73,12 @@ class SocialSentimentTest extends BaseTestCase
     /** @test */
     public function it_can_query_the_social_sentiment_endpoint_per_minute()
     {
-        $mock = new MockHandler([$this->minuteResponse]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $social = new \Digitonic\IexCloudSdk\AlternativeData\SocialSentiment($iexApi);
+        $social = new \Digitonic\IexCloudSdk\AlternativeData\SocialSentiment($this->clientMinute);
 
         $response = $social->setDate('20190930')
             ->setType('minute')
             ->setSymbol('aapl')
-            ->send();
+            ->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 

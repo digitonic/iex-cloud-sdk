@@ -4,19 +4,11 @@ namespace Digitonic\IexCloudSdk\Tests\ReferenceData;
 
 use Digitonic\IexCloudSdk\Facades\ReferenceData\FxSymbols;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class FxSymbolsTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -27,21 +19,16 @@ class FxSymbolsTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '{"currencies": [{"code": "URE","name": "uoEr"},{"code": "SDU","name": "ll DoaSU.r."}],"pairs": [{"fromCurrency": "REU","toCurrency": "SUD"},{"fromCurrency": "DUS","toCurrency": "URE"},{"fromCurrency": "BPG","toCurrency": "DUS"}]}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_can_query_the_symbols_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $symbols = new \Digitonic\IexCloudSdk\ReferenceData\FxSymbols($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $symbols = new \Digitonic\IexCloudSdk\ReferenceData\FxSymbols($iexApi);
-
-        $response = $symbols->send();
+        $response = $symbols->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(2, $response);
@@ -59,11 +46,11 @@ class FxSymbolsTest extends BaseTestCase
     {
         $this->setConfig();
 
-        FxSymbols::shouldReceive('send')
+        FxSymbols::shouldReceive('get')
             ->once()
             ->andReturn(collect(json_decode($this->response->getBody()->getContents())));
 
-        $response = FxSymbols::send();
+        $response = FxSymbols::get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(2, $response);

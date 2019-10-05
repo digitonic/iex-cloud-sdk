@@ -5,19 +5,11 @@ namespace Digitonic\IexCloudSdk\Tests\InvestorsExchangeData\Deep;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\InvestorsExchangeData\Deep\TradingStatus;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class TradingStatusTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -28,38 +20,26 @@ class TradingStatusTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '{"SNAP": {"status": "T","reason": " ","timestamp": 1494588017674}}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $status = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\TradingStatus($iexApi);
+        $status = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\TradingStatus($this->client);
 
         $this->expectException(WrongData::class);
 
-        $status->send();
+        $status->get();
     }
 
     /** @test */
     public function it_can_query_the_op_halt_status_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $status = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\TradingStatus($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $status = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\TradingStatus($iexApi);
-
-        $response = $status->setSymbols('SNAP')->send();
+        $response = $status->setSymbols('SNAP')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 

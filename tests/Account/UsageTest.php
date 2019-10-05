@@ -25,7 +25,7 @@ class UsageTest extends BaseTestCase
 
         $usage = new \Digitonic\IexCloudSdk\Account\Usage($iexApi);
 
-        $response = $usage->send();
+        $response = $usage->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(2, $response);

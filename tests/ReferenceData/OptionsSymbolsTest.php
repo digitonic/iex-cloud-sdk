@@ -4,19 +4,11 @@ namespace Digitonic\IexCloudSdk\Tests\ReferenceData;
 
 use Digitonic\IexCloudSdk\Facades\ReferenceData\OptionsSymbols;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class OptionsSymbolsTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -27,21 +19,16 @@ class OptionsSymbolsTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '{"DDOG": ["203385","205236","211102","205729"],"FLIC": ["210742","204937","211972","202932"]}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_can_query_the_symbols_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $symbols = new \Digitonic\IexCloudSdk\ReferenceData\OptionsSymbols($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $symbols = new \Digitonic\IexCloudSdk\ReferenceData\OptionsSymbols($iexApi);
-
-        $response = $symbols->send();
+        $response = $symbols->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(2, $response);
@@ -63,11 +50,11 @@ class OptionsSymbolsTest extends BaseTestCase
     {
         $this->setConfig();
 
-        OptionsSymbols::shouldReceive('send')
+        OptionsSymbols::shouldReceive('get')
             ->once()
             ->andReturn(collect(json_decode($this->response->getBody()->getContents())));
 
-        $response = OptionsSymbols::send();
+        $response = OptionsSymbols::get();
 
         $this->assertEquals('203385', $response['DDOG'][0]);
         $this->assertEquals('205236', $response['DDOG'][1]);

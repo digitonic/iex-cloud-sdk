@@ -5,19 +5,11 @@ namespace Digitonic\IexCloudSdk\Tests\InvestorsExchangeData\Deep;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\InvestorsExchangeData\Deep\Book;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class BookTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -28,38 +20,26 @@ class BookTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '{"AAPL": {"bids": [],"asks": []}}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $book = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\Book($iexApi);
+        $book = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\Book($this->client);
 
         $this->expectException(WrongData::class);
 
-        $book->send();
+        $book->get();
     }
 
     /** @test */
     public function it_can_query_the_deep_book_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $book = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\Book($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $book = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\Book($iexApi);
-
-        $response = $book->setSymbol('aapl')->send();
+        $response = $book->setSymbol('aapl')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 

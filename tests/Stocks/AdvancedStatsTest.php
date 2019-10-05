@@ -14,11 +14,6 @@ use Illuminate\Support\Collection;
 class AdvancedStatsTest extends BaseTestCase
 {
     /**
-     * @var Response
-     */
-    private $response;
-
-    /**
      * Setup the test environment.
      *
      * @return void
@@ -76,6 +71,8 @@ class AdvancedStatsTest extends BaseTestCase
     "pegRatio": -2.8,
     "peHigh": 20.472408850103356,
     "peLow": 12.1758578473888}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
@@ -92,7 +89,7 @@ class AdvancedStatsTest extends BaseTestCase
 
         $this->expectException(WrongData::class);
 
-        $advancedStats->send();
+        $advancedStats->get();
     }
 
     /** @test */
@@ -107,7 +104,7 @@ class AdvancedStatsTest extends BaseTestCase
 
         $advancedStats = new \Digitonic\IexCloudSdk\Stocks\AdvancedStats($iexApi);
 
-        $response = $advancedStats->setSymbol('aapl')->send();
+        $response = $advancedStats->setSymbol('aapl')->get();
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(48, $response);
 

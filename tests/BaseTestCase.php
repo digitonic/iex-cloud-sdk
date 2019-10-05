@@ -12,15 +12,39 @@ use Digitonic\IexCloudSdk\Facades\ForexCurrencies\ExchangeRates;
 use Digitonic\IexCloudSdk\Facades\ReferenceData\IEXSymbols;
 use Digitonic\IexCloudSdk\Facades\ReferenceData\Symbols;
 use Digitonic\IexCloudSdk\IexCloudSdkServiceProvider;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 use Orchestra\Testbench\TestCase;
 
 class BaseTestCase extends TestCase
 {
+    /**
+     * @var \Digitonic\IexCloudSdk\Client
+     */
+    protected $client;
+
+    /**
+     * @var Response|null
+     */
+    protected $response = null;
+
     protected function setConfig(): void
     {
         $this->app['config']->set('iex-cloud-sdk.base_url', 'https://cloud.iexapis.com/v1');
         $this->app['config']->set('iex-cloud-sdk.secret_key', 'KxDMt9GNVgu6fJUOG0UjH3d4kjZPTxFiXd5RnPhUD8Qz1Q2esNVIFfqmrqRD');
         $this->app['config']->set('iex-cloud-sdk.public_key', 'KxDMt9GNVgu6fJUOG0UjH3d4kjZPTxFiXd5RnPhUD8Qz1Q2esNVIFfqmrqRD');
+    }
+
+    protected function setupMockedClient(Response $response)
+    {
+        $mock = new MockHandler([$response]);
+
+        $handler = HandlerStack::create($mock);
+        $client = new Client(['handler' => $handler]);
+
+        return  new \Digitonic\IexCloudSdk\Client($client);
     }
 
     protected function getPackageProviders($app)

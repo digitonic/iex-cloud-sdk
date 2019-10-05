@@ -14,11 +14,6 @@ use Illuminate\Support\Collection;
 class BookTest extends BaseTestCase
 {
     /**
-     * @var Response
-     */
-    private $response;
-
-    /**
      * Setup the test environment.
      *
      * @return void
@@ -28,38 +23,26 @@ class BookTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '{"bids": [{"price": "8621.32","size": "0.034519","timestamp": 1642342503636}],"asks": [{"price": "8611.71","size": "0.010457","timestamp": 1613097668001}]}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Book($iexApi);
+        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Book($this->client);
 
         $this->expectException(WrongData::class);
 
-        $crypto->send();
+        $crypto->get();
     }
 
     /** @test */
     public function it_can_query_the_crypto_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Book($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Book($iexApi);
-
-        $response = $crypto->setSymbol('aapl')->send();
+        $response = $crypto->setSymbol('aapl')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 

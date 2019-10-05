@@ -14,11 +14,6 @@ use Illuminate\Support\Collection;
 class DataPointsTest extends BaseTestCase
 {
     /**
-     * @var Response
-     */
-    private $response;
-
-    /**
      * Setup the test environment.
      *
      * @return void
@@ -28,38 +23,26 @@ class DataPointsTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '[{"key": "NEXTDIVIDENDDATE","weight": 1,"description": "","lastUpdated": "2019-08-09T08:50:31+00:00"},{"key": "ACCOUNTSPAYABLE","weight": 3000,"description": "Balance Sheet: accountsPayable","lastUpdated": "2019-09-30T08:08:13+00:00"},{"key": "ZIP","weight": 1,"description": "zip","lastUpdated": "2019-09-30T10:08:03+00:00"}]');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $dataPoints = new \Digitonic\IexCloudSdk\DataApis\DataPoints($iexApi);
+        $dataPoints = new \Digitonic\IexCloudSdk\DataApis\DataPoints($this->client);
 
         $this->expectException(WrongData::class);
 
-        $dataPoints->send();
+        $dataPoints->get();
     }
 
     /** @test */
     public function it_can_query_the_data_points_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $dataPoints = new \Digitonic\IexCloudSdk\DataApis\DataPoints($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $dataPoints = new \Digitonic\IexCloudSdk\DataApis\DataPoints($iexApi);
-
-        $response = $dataPoints->setSymbol('aapl')->send();
+        $response = $dataPoints->setSymbol('aapl')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(3, $response);
@@ -81,7 +64,7 @@ class DataPointsTest extends BaseTestCase
 
         $dataPoints = new \Digitonic\IexCloudSdk\DataApis\DataPoints($iexApi);
 
-        $response = $dataPoints->setSymbol('aapl')->setKey('NEXTDIVIDENDDATE')->send();
+        $response = $dataPoints->setSymbol('aapl')->setKey('NEXTDIVIDENDDATE')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(1, $response);

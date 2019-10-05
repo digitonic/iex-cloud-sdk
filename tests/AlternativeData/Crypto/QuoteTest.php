@@ -5,19 +5,11 @@ namespace Digitonic\IexCloudSdk\Tests\AlternativeData\Crypto;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\AlternativeData\Crypto\Quote;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class QuoteTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -28,38 +20,26 @@ class QuoteTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '{"symbol": "BTCUSDT","primaryExchange": "0","sector": "yyeoccnrrcpurt","calculationPrice": "realtime","latestPrice": "8369.7","latestSource": "Real time price","latestUpdate": 1614953755791,"latestVolume": null,"bidPrice": "8385.53","bidSize": "0.026913","askPrice": "8494.58","askSize": "0.027297","high": null,"low": null,"previousClose": null}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Quote($iexApi);
+        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Quote($this->client);
 
         $this->expectException(WrongData::class);
 
-        $crypto->send();
+        $crypto->get();
     }
 
     /** @test */
     public function it_can_query_the_crypto_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Quote($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Quote($iexApi);
-
-        $response = $crypto->setSymbol('aapl')->send();
+        $response = $crypto->setSymbol('aapl')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 

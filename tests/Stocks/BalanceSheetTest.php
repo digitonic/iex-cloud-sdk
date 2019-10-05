@@ -5,19 +5,11 @@ namespace Digitonic\IexCloudSdk\Tests\Stocks;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\Stocks\BalanceSheet;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class BalanceSheetTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -61,38 +53,25 @@ class BalanceSheetTest extends BaseTestCase
         }
     ]
 }');
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $balanceSheet = new \Digitonic\IexCloudSdk\Stocks\BalanceSheet($iexApi);
+        $balanceSheet = new \Digitonic\IexCloudSdk\Stocks\BalanceSheet($this->client);
 
         $this->expectException(WrongData::class);
 
-        $balanceSheet->send();
+        $balanceSheet->get();
     }
 
     /** @test */
     public function it_can_query_the_advanced_stats_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $balanceSheet = new \Digitonic\IexCloudSdk\Stocks\BalanceSheet($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $balanceSheet = new \Digitonic\IexCloudSdk\Stocks\BalanceSheet($iexApi);
-
-        $response = $balanceSheet->setSymbol('aapl')->send();
+        $response = $balanceSheet->setSymbol('aapl')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(2, $response);

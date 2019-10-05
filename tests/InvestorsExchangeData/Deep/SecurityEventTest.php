@@ -3,22 +3,13 @@
 namespace Digitonic\IexCloudSdk\Tests\InvestorsExchangeData\Deep;
 
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
-use Digitonic\IexCloudSdk\Facades\InvestorsExchangeData\Deep\Book;
 use Digitonic\IexCloudSdk\Facades\InvestorsExchangeData\Deep\SecurityEvent;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class SecurityEventTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -29,38 +20,26 @@ class SecurityEventTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '{"AAPL": {"securityEvent": "oetlCasrkeM","timestamp": 1616881490142}}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $securityEvent = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\SecurityEvent($iexApi);
+        $securityEvent = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\SecurityEvent($this->client);
 
         $this->expectException(WrongData::class);
 
-        $securityEvent->send();
+        $securityEvent->get();
     }
 
     /** @test */
     public function it_can_query_the_deep_book_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $securityEvent = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\SecurityEvent($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $securityEvent = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Deep\SecurityEvent($iexApi);
-
-        $response = $securityEvent->setSymbol('aapl')->send();
+        $response = $securityEvent->setSymbol('aapl')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 

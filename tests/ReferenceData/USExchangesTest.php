@@ -4,19 +4,11 @@ namespace Digitonic\IexCloudSdk\Tests\ReferenceData;
 
 use Digitonic\IexCloudSdk\Facades\ReferenceData\USExchanges;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class USExchangesTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -27,21 +19,16 @@ class USExchangesTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '[{ "mic": "XARC", "name": "c ErNaSAY", "longName": " EYRACNAS", "tapeId": "P", "oatsId": "PX", "refId": "ESP", "type": "equities" },{ "mic": "EGDX", "name": "EXe oCDbG", "longName": "Sh xbgtEi sGieqUnDEEce oCuae X", "tapeId": "K", "oatsId": "XK", "refId": "GEXD", "type": "equities" }, { "mic": "BSAT","name": "CeBZb oX","longName": " XniaBcs Z  UeuCShtxEbegqieEo", "tapeId": "Z","oatsId": "XZ","refId": "ASBT","type": "equities"}]');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_can_query_the_region_symbols_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $usExchanges = new \Digitonic\IexCloudSdk\ReferenceData\USExchanges($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $usExchanges = new \Digitonic\IexCloudSdk\ReferenceData\USExchanges($iexApi);
-
-        $response = $usExchanges->send();
+        $response = $usExchanges->get();
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(3, $response);
         $this->assertEquals('XARC', $response->first()->mic);
@@ -55,10 +42,10 @@ class USExchangesTest extends BaseTestCase
     {
         $this->setConfig();
 
-        USExchanges::shouldReceive('send')
+        USExchanges::shouldReceive('get')
             ->once()
             ->andReturn(collect(json_decode($this->response->getBody()->getContents())));
 
-        USExchanges::send();
+        USExchanges::get();
     }
 }

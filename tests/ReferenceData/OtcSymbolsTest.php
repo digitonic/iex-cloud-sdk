@@ -4,19 +4,11 @@ namespace Digitonic\IexCloudSdk\Tests\ReferenceData;
 
 use Digitonic\IexCloudSdk\Facades\ReferenceData\OtcSymbols;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class OtcSymbolsTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -27,21 +19,16 @@ class OtcSymbolsTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '[{ "symbol": "AAAG", "exchange": "OTC", "name": "AC AroptI  yAr cunGuUe.nAS", "date": "2019-10-04", "type": "cs", "iexId": "IEX_4A534652444A2D52", "region": "US", "currency": "USD","isEnabled": true},{ "symbol": "AAAIF","exchange": "OTC", "name": "tTenmurevnrlviUt e Atsttnin asteIs","date": "2019-10-04","type": "cef", "iexId": "IEX_4B344E5839342D52","region": "US", "currency": "USD","isEnabled": true}]');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_can_query_the_symbols_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $symbols = new \Digitonic\IexCloudSdk\ReferenceData\OtcSymbols($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $symbols = new \Digitonic\IexCloudSdk\ReferenceData\OtcSymbols($iexApi);
-
-        $response = $symbols->send();
+        $response = $symbols->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(2, $response);
@@ -54,11 +41,11 @@ class OtcSymbolsTest extends BaseTestCase
     {
         $this->setConfig();
 
-        OtcSymbols::shouldReceive('send')
+        OtcSymbols::shouldReceive('get')
             ->once()
             ->andReturn(collect(json_decode($this->response->getBody()->getContents())));
 
-        $response = OtcSymbols::send();
+        $response = OtcSymbols::get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(2, $response);

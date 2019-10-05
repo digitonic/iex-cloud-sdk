@@ -25,7 +25,7 @@ class MetadataTest extends BaseTestCase
 
         $metadata = new \Digitonic\IexCloudSdk\Account\Metadata($iexApi);
 
-        $response = $metadata->send();
+        $response = $metadata->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(7, $response);

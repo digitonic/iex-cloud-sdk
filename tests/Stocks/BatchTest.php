@@ -5,24 +5,11 @@ namespace Digitonic\IexCloudSdk\Tests\Stocks;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\Stocks\Batch;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class BatchTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
-    /**
-     * @var \Digitonic\IexCloudSdk\Client
-     */
-    private $iexApi;
-
     /**
      * Setup the test environment.
      *
@@ -353,18 +340,13 @@ class BatchTest extends BaseTestCase
     }
 }');
 
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $this->iexApi = new \Digitonic\IexCloudSdk\Client($client);
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->iexApi);
+        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->client);
 
         $this->expectException(WrongData::class);
 
@@ -374,17 +356,17 @@ class BatchTest extends BaseTestCase
     /** @test */
     public function it_should_fail_without_a_type()
     {
-        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->iexApi);
+        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->client);
 
         $this->expectException(WrongData::class);
 
-        $batch->setSymbols('aapl', 'amzn')->send();
+        $batch->setSymbols('aapl', 'amzn')->get();
     }
 
     /** @test */
     public function it_can_query_a_single_market()
     {
-        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->iexApi);
+        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->client);
 
         $batch->setSymbols('aapl')
             ->setTypes('quote', 'news')
@@ -396,7 +378,7 @@ class BatchTest extends BaseTestCase
     /** @test */
     public function it_can_query_a_range_with_chart()
     {
-        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->iexApi);
+        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->client);
 
         $batch->setSymbols('aapl')
             ->setTypes('quote', 'news', 'chart')
@@ -409,7 +391,7 @@ class BatchTest extends BaseTestCase
     /** @test */
     public function it_can_not_query_a_range_with_out_chart()
     {
-        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->iexApi);
+        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->client);
 
         $batch->setSymbols('aapl')
             ->setTypes('quote', 'news')
@@ -422,7 +404,7 @@ class BatchTest extends BaseTestCase
     /** @test */
     public function it_can_query_a_multiple_markets_and_types()
     {
-        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->iexApi);
+        $batch = new \Digitonic\IexCloudSdk\Stocks\Batch($this->client);
 
         $response = $batch->setSymbols('aapl', 'amaz')
             ->setTypes('quote', 'news')

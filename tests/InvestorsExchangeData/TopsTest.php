@@ -5,19 +5,11 @@ namespace Digitonic\IexCloudSdk\Tests\InvestorsExchangeData;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\InvestorsExchangeData\Tops;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class TopsTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -28,38 +20,26 @@ class TopsTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '[{"symbol": "AAPL","sector": "nicreetgtyclnolheooc","securityType": "sc","bidPrice": 0,"bidSize": 0,"askPrice": 0,"askSize": 0,"lastUpdated": 1640962930475,"lastSalePrice": 225.83,"lastSaleSize": 73,"lastSaleTime": 1641487716483,"volume": 298964},{"symbol": "MSFT","sector": "ehnorsegytocevlics","securityType": "sc","bidPrice": 0,"bidSize": 0,"askPrice": 0,"askSize": 0,"lastUpdated": 1571066822216,"lastSalePrice": 145.01,"lastSaleSize": 2,"lastSaleTime": 1571699873189,"volume": 468994}]');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol_or_symbols()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $tops = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Tops($iexApi);
+        $tops = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Tops($this->client);
 
         $this->expectException(WrongData::class);
 
-        $tops->send();
+        $tops->get();
     }
 
     /** @test */
     public function it_can_query_the_tops_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $tops = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Tops($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $tops = new \Digitonic\IexCloudSdk\InvestorsExchangeData\Tops($iexApi);
-
-        $response = $tops->setSymbols('aapl')->send();
+        $response = $tops->setSymbols('aapl')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 

@@ -14,11 +14,6 @@ use Illuminate\Support\Collection;
 class SearchTest extends BaseTestCase
 {
     /**
-     * @var Response
-     */
-    private $response;
-
-    /**
      * Setup the test environment.
      *
      * @return void
@@ -28,21 +23,16 @@ class SearchTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '[{ "symbol": "AAPL", "securityName": ".eA plpcnI", "securityType": "sc", "region": "US", "exchange": "NAS"},{ "symbol": "APLE", "securityName": "cRl  yHatEiIslp tneoipAIpT", "securityType": "cs", "region": "US", "exchange": "SYN"},{ "symbol": "APRU", "securityName": "Cem phplnas, pcIAoynu R.", "securityType": "cs", "region": "US", "exchange": "COT"},{ "symbol": "AGPL", "securityName": "e.c nHeplGderInli opAgn, ","securityType": "sc","region": "US","exchange": "COT"},{ "symbol": "APGN-ID", "securityName": "ercpngeA pllpe", "securityType": "cs", "region": "IE", "exchange": "BDU"},{ "symbol": "APGN-LN", "securityName": "rApeelep pgncl", "securityType": "sc","region": "GB", "exchange": "OLN"},{"symbol": "AAPL-MM","securityName": " p.plecAnI","securityType": "sc","region": "MX","exchange": "XME"},{ "symbol": "APC-GY", "securityName": "pelA .pncI", "securityType": "sc", "region": "DE", "exchange": "ETR"},{"symbol": "500014-IB","securityName": "ilipdem eFintepLc Ana","securityType": "cs","region": "IN","exchange": "BMO"},{"symbol": "511339-IB","securityName": "trpC.L.potir ede pCAld ","securityType": "sc","region": "IN","exchange": "OMB"}]');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_can_query_the_search_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $search = new \Digitonic\IexCloudSdk\ReferenceData\Search($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $search = new \Digitonic\IexCloudSdk\ReferenceData\Search($iexApi);
-
-        $response = $search->setTerm('apple')->send();
+        $response = $search->setTerm('apple')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(10, $response);

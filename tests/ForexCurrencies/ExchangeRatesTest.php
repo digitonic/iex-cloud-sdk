@@ -4,29 +4,31 @@ namespace Digitonic\IexCloudSdk\Tests\ForexCurrencies;
 
 use Digitonic\IexCloudSdk\Facades\ForexCurrencies\ExchangeRates;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class ExchangeRatesTest extends BaseTestCase
 {
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->response = new Response(200, [], '{"fromCurrency": "GBP","toCurrency": "USD","rate": 0.9436089583568926,"date": "2019-09-24"}');
+
+        $this->client = $this->setupMockedClient($this->response);
+    }
+
     /** @test */
     public function it_can_query_the_forex_endpoint()
     {
-        $mock = new MockHandler([
-            new Response(200, [], '{"fromCurrency": "GBP","toCurrency": "USD","rate": 0.9436089583568926,"date": "2019-09-24"}')
-        ]);
+        $forex = new \Digitonic\IexCloudSdk\ForexCurrencies\ExchangeRates($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $forex = new \Digitonic\IexCloudSdk\ForexCurrencies\ExchangeRates($iexApi);
-
-        $response = $forex->setFrom('GBP')->setTo('USD')->send();
+        $response = $forex->setFrom('GBP')->setTo('USD')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(4, $response);
@@ -39,17 +41,14 @@ class ExchangeRatesTest extends BaseTestCase
     {
         $this->setConfig();
 
-        $response = new Response(200, [], '{"fromCurrency": "GBP","toCurrency": "EUR","rate": 0.9436089583568926,"date": "2019-09-24"}');
-
-        ExchangeRates::shouldReceive('send')
+        ExchangeRates::shouldReceive('get')
             ->once()
-            ->andReturn(collect(json_decode($response->getBody()->getContents())));
+            ->andReturn(collect(json_decode($this->response->getBody()->getContents())));
 
-        $response = ExchangeRates::send();
+        $response = ExchangeRates::get();
 
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertEquals('GBP', $response['fromCurrency']);
-        $this->assertEquals('EUR', $response['toCurrency']);
-
+        $this->assertEquals('USD', $response['toCurrency']);
     }
 }

@@ -5,19 +5,11 @@ namespace Digitonic\IexCloudSdk\Tests\AlternativeData\Crypto;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\AlternativeData\Crypto\Price;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
 class PriceTest extends BaseTestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
     /**
      * Setup the test environment.
      *
@@ -28,38 +20,26 @@ class PriceTest extends BaseTestCase
         parent::setUp();
 
         $this->response = new Response(200, [], '{"price": "8753.24","symbol": "BTCUSDT"}');
+
+        $this->client = $this->setupMockedClient($this->response);
     }
 
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Price($iexApi);
+        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Price($this->client);
 
         $this->expectException(WrongData::class);
 
-        $crypto->send();
+        $crypto->get();
     }
 
     /** @test */
     public function it_can_query_the_crypto_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
+        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Price($this->client);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $crypto = new \Digitonic\IexCloudSdk\AlternativeData\Crypto\Price($iexApi);
-
-        $response = $crypto->setSymbol('BTCUSDT')->send();
+        $response = $crypto->setSymbol('BTCUSDT')->get();
 
         $this->assertInstanceOf(Collection::class, $response);
 

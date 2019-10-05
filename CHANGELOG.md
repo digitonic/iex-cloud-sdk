@@ -4,6 +4,13 @@ All notable changes to `iex-cloud-sdk` will be documented in this file
 
 ## v0.1.0-beta.8 - 2019-10-05
 
+### Changed
+
+- Refactored Tests for consistency
+- Use a `get()` method for returning from GET requests
+
+## v0.1.0-beta.8 - 2019-10-05
+
 ### Added
 
 ##### Stocks
