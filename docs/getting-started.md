@@ -4,6 +4,10 @@ IEX Cloud is platform that provides an easy-to-use and cost-effective platform t
 
 The IEX Cloud SDK for PHP is a package that allows easy and consistent integration with the IEX Cloud API.
 
+#### Development
+
+!> Package in heavy development. Follow the [status](dev-status.md)
+
 #### What next?
 Read the [Quick Start](quickstart.md) 
 
