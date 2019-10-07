@@ -1,4 +1,5 @@
 * [Getting Started](/getting-started.md)
+* [Development](/dev-status.md)
 * [Quick Start](/quickstart.md)
 * [Account](account.md)
 * [Data Apis](data-apis.md)
