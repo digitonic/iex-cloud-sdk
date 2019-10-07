@@ -33,6 +33,7 @@ class Client implements IEXCloud
      *
      * @return ResponseInterface
      * @throws GuzzleException
+     * @throws WrongData
      */
     public function send(RequestInterface $request, array $options = []): ResponseInterface
     {
