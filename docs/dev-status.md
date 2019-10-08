@@ -4,6 +4,8 @@
 
 Below is a list of endpoints to be implemented. (46/97)
 
+!> **TODO** Optional query parameters
+
 ### Account
 
 - [x] Metadata
