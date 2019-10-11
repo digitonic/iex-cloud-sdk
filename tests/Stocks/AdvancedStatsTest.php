@@ -5,9 +5,6 @@ namespace Digitonic\IexCloudSdk\Tests\Stocks;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\Stocks\AdvancedStats;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
@@ -78,14 +75,7 @@ class AdvancedStatsTest extends BaseTestCase
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $advancedStats = new \Digitonic\IexCloudSdk\Stocks\AdvancedStats($iexApi);
+        $advancedStats = new \Digitonic\IexCloudSdk\Stocks\AdvancedStats($this->client);
 
         $this->expectException(WrongData::class);
 
@@ -95,14 +85,7 @@ class AdvancedStatsTest extends BaseTestCase
     /** @test */
     public function it_can_query_the_advanced_stats_endpoint()
     {
-        $mock = new MockHandler([$this->response]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $iexApi = new \Digitonic\IexCloudSdk\Client($client);
-
-        $advancedStats = new \Digitonic\IexCloudSdk\Stocks\AdvancedStats($iexApi);
+        $advancedStats = new \Digitonic\IexCloudSdk\Stocks\AdvancedStats($this->client);
 
         $response = $advancedStats->setSymbol('aapl')->get();
         $this->assertInstanceOf(Collection::class, $response);

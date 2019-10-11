@@ -6,9 +6,9 @@ use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Requests\BaseRequest;
 
-class AdvancedStats extends BaseRequest
+class Logo extends BaseRequest
 {
-    const ENDPOINT = 'stock/{symbol}/advanced-stats';
+    const ENDPOINT = 'stock/{symbol}/logo';
 
     /**
      * Create constructor.

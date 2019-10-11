@@ -91,6 +91,7 @@ class Batch extends BaseRequest
 
     /**
      * @return bool|void
+     * @throws WrongData
      */
     protected function validateParams(): void
     {
