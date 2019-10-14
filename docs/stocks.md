@@ -81,6 +81,51 @@ Collection {#275 ▼
 
 !> Still to be documented
 
+## Company
+
+**Example**
+
+```php
+use \Digitonic\IexCloudSdk\Stocks\Company;
+
+$endpoint = new Company($client);
+$response = $endpoint->setSymbol('aapl')->get();
+
+// Laravel
+use \Digitonic\IexCloudSdk\Facades\Stocks\Company;
+
+$response = Company::setSymbol('aapl')->get();
+```
+
+**Response**
+
+```php
+Collection {#275 ▼
+  #items: array:20 [▼
+    "symbol" => "AAPL"
+    "companyName" => "Apple, Inc."
+    "exchange" => "ADQNSA"
+    "industry" => "eqempesmincmlaEToctutnouni i"
+    "website" => "h./cmopwtwpt.lw/epa:"
+    "description" => "do rpa apimkaz giieC rlCg  nhlopgaeqV,s ahha, ,fn dsT,lTA)e es uw rf  Coam  T olsaetS a sgWoA.ai ev,g, rhaletasteri n iocsl,aep si hdGa fEtetdIu,, n  tinIngnm d ▶"
+    "CEO" => "nhoya omTdCo oilDtk"
+    "securityName" => "cpA.l pneI"
+    "issueType" => "sc"
+    "sector" => "icgoeoctllrnncehEoT y"
+    "primarySicCode" => 3745
+    "employees" => 136025
+    "tags" => array:2 [▶]
+    "address" => "n akrplApPWye Oe a"
+    "address2" => null
+    "state" => "AC"
+    "city" => "tupeCiorn"
+    "zip" => "1320984-50"
+    "country" => "SU"
+    "phone" => "4821.10933.4.7"
+  ]
+}
+```
+
 ## Logo
 
 This is a helper function, but the Google APIs url is standardized.
@@ -105,6 +150,80 @@ $response = Logo::setSymbol('aapl')->get();
 Collection {#275 ▼
   #items: array:1 [▼
     "url" => "https://storage.googleapis.com/iex/api/logos/AAPL.png"
+  ]
+}
+```
+
+## News
+
+**Example**
+
+```php
+use \Digitonic\IexCloudSdk\Stocks\News;
+
+$endpoint = new News($client);
+$response = $endpoint->setSymbol('aapl')->get();
+
+// Laravel
+use \Digitonic\IexCloudSdk\Facades\Stocks\News;
+
+$response = News::setSymbol('aapl')->get();
+
+// Limit results (between 1 and 50) - default 10
+$response = News::setSymbol('aapl')->take(5)->get();
+```
+
+**Response**
+
+```php
+Collection {#281 ▼
+  #items: array:10 [▼
+    0 => {#277 ▼
+      +"datetime": 1585798516729
+      +"headline": "iu  McDcxsl ovo kSiosfefllTol ielESdap rs onptotp Aelo"
+      +"source": "orBs'arn"
+      +"url": "o-3sp9d2ee/tfa1./pl2cnc--6xti8r2eo0044wdthl5:f485m0-4s/e4ivaued602./s/cc/7icc2"
+      +"summary": "r yphef-rk s   u ki driodoaapiardencselaeshfw ffcpor  ehnha loaifeelhaadtf  ns5ntaie ctoegfrcithocctcasi gArte enni eddihino2nhastigcnpnt. aT  "
+      +"related": "APLA"
+      +"image": "7/06pes.4h.fisnem-2//x0w8/-pae093-c2-:i5at5o6/e4s41vte224m0lodcc2ifuc8/c4dgd"
+      +"lang": "ne"
+      +"hasPaywall": true
+    }
+    1 => {#275 ▶}
+    2 => {#278 ▶}
+    3 => {#272 ▶}
+    4 => {#267 ▶}
+    5 => {#265 ▶}
+    6 => {#276 ▶}
+    7 => {#269 ▶}
+    8 => {#279 ▶}
+    9 => {#280 ▶}
+  ]
+}
+```
+
+## Price
+
+**Example**
+
+```php
+use \Digitonic\IexCloudSdk\Stocks\Price;
+
+$endpoint = new Price($client);
+$response = $endpoint->setSymbol('aapl')->get();
+
+// Laravel
+use \Digitonic\IexCloudSdk\Facades\Stocks\Price;
+
+$response = Price::setSymbol('aapl')->get();
+```
+
+**Response**
+
+```php
+Collection {#277 ▼
+  #items: array:1 [▼
+    0 => 244.25
   ]
 }
 ```

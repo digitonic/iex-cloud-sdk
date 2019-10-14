@@ -86,7 +86,7 @@ Below is a list of endpoints to be implemented. (46/97)
 - [ ] Book
 - [ ] Cash Flow
 - [ ] Collections
-- [ ] Company
+- [x] Company
 - [ ] Delayed Quote
 - [ ] Dividends
 - [ ] Earnings
@@ -108,13 +108,13 @@ Below is a list of endpoints to be implemented. (46/97)
 - [ ] List
 - [x] Logo
 - [ ] Market Volume
-- [ ] News
+- [x] News
 - [ ] OHLC
 - [ ] Options (exp dates)
 - [ ] Options (data)
 - [ ] Peers
 - [ ] Previous Day Prices
-- [ ] Price
+- [x] Price
 - [ ] Price Target
 - [ ] Quote
 - [ ] Recommendation Trends
