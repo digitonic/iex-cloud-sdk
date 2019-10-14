@@ -1,3 +1,5 @@
+# Data APIs
+
 ## Data Points
 
 Data points are available per symbol and return individual plain text values. Retrieving individual data points is useful for Excel and Google Sheet users, and applications where a single, lightweight value is needed.

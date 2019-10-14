@@ -112,7 +112,7 @@ Alternatively you may use the facades directly which provides a much faster and 
 ```php
 use \Digitonic\IexCloudSdk\Facades\Account\Metadata;
 
-$response = Digitonic\IexCloudSdk\Facades\Account\Metadata::get();
+$response = Metadata::get();
 ```
 
 Some endpoints require extra parameters being passed to the endpoint object. Please see each endpoint documentation for requirements and example usage.

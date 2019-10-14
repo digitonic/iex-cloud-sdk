@@ -13,7 +13,9 @@ $endpoint = new Metadata($client);
 $response = $endpoint->get();
 
 // Laravel
-$response = \Digitonic\IexCloudSdk\Facades\Account\Metadata::get();
+use \Digitonic\IexCloudSdk\Facades\Account\Metadata;
+
+$response = Metadata::get();
 ```
 
 **Response**
@@ -45,7 +47,9 @@ $endpoint = new Usage($client);
 $response = $endpoint->get();
 
 // Laravel
-$response = \Digitonic\IexCloudSdk\Facades\Account\Usage::get();
+use \Digitonic\IexCloudSdk\Facades\Account\Usage;
+
+$response = Usage::get();
 ```
 
 **Response**

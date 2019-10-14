@@ -4,6 +4,7 @@
 * [Account](account.md)
 * [Data Apis](data-apis.md)
 * [Alternative Data](alt-data.md)
+* [Cryptocurrency](cryptocurrency.md)
 * [API System Metadata](system-metadata.md)
 * [Forex / Currencies](forex.md)
 * [Investors Exchange Data](iex-data.md)

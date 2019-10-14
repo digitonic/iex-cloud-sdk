@@ -106,7 +106,7 @@ Below is a list of endpoints to be implemented. (46/97)
 - [ ] Key Stats
 - [ ] Largest Trades
 - [ ] List
-- [ ] Logo
+- [x] Logo
 - [ ] Market Volume
 - [ ] News
 - [ ] OHLC

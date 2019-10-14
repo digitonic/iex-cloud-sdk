@@ -1,1 +1,3 @@
+# Forex / Currencies
+
 ## Exchange Rates
