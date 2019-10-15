@@ -4,11 +4,12 @@ namespace Digitonic\IexCloudSdk\Tests\Stocks;
 
 use Digitonic\IexCloudSdk\Exceptions\WrongData;
 use Digitonic\IexCloudSdk\Facades\Stocks\Price;
+use Digitonic\IexCloudSdk\Facades\Stocks\PriceTarget;
 use Digitonic\IexCloudSdk\Tests\BaseTestCase;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 
-class PriceTest extends BaseTestCase
+class PriceTargetTest extends BaseTestCase
 {
     /**
      * Setup the test environment.
@@ -19,7 +20,14 @@ class PriceTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->response = new Response(200, [], '237.65');
+        $this->response = new Response(200, [], '{
+    "symbol": "AAPL",
+    "updatedDate": "2019-10-28",
+    "priceTargetAverage": 229,
+    "priceTargetHigh": 282,
+    "priceTargetLow": 156,
+    "numberOfAnalysts": 39
+}');
 
         $this->client = $this->setupMockedClient($this->response);
     }
@@ -27,21 +35,21 @@ class PriceTest extends BaseTestCase
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $price = new \Digitonic\IexCloudSdk\Stocks\Price($this->client);
+        $priceTarget = new \Digitonic\IexCloudSdk\Stocks\PriceTarget($this->client);
 
         $this->expectException(WrongData::class);
 
-        $price->get();
+        $priceTarget->get();
     }
 
     /** @test */
-    public function it_can_query_the_price_endpoint()
+    public function it_can_query_the_price_target_endpoint()
     {
-        $price = new \Digitonic\IexCloudSdk\Stocks\Price($this->client);
+        $priceTarget = new \Digitonic\IexCloudSdk\Stocks\PriceTarget($this->client);
 
-        $response = $price->setSymbol('aapl')->get();
+        $response = $priceTarget->setSymbol('aapl')->get();
         $this->assertInstanceOf(Collection::class, $response);
-        $this->assertCount(1, $response);
+        $this->assertCount(6, $response);
     }
 
     /** @test */
@@ -49,10 +57,10 @@ class PriceTest extends BaseTestCase
     {
         $this->setConfig();
 
-        Price::shouldReceive('setSymbol')
+        PriceTarget::shouldReceive('setSymbol')
             ->once()
             ->andReturnSelf();
 
-        Price::setSymbol('aapl');
+        PriceTarget::setSymbol('aapl');
     }
 }

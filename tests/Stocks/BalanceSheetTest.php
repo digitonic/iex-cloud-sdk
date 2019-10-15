@@ -67,7 +67,7 @@ class BalanceSheetTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_query_the_advanced_stats_endpoint()
+    public function it_can_query_the_balance_sheet_endpoint()
     {
         $balanceSheet = new \Digitonic\IexCloudSdk\Stocks\BalanceSheet($this->client);
 

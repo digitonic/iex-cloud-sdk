@@ -11,7 +11,9 @@ All notable changes to `iex-cloud-sdk` will be documented in this file
 - Company
 - News
 - Logo
+- Previous Day Price
 - Price
+- Price Target
 
 ### Changed
 

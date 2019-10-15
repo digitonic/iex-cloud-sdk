@@ -2,7 +2,7 @@
 
 #### Active Development
 
-Below is a list of endpoints to be implemented. (46/97)
+Below is a list of endpoints to be implemented. (53/97)
 
 !> **TODO** Optional query parameters
 
@@ -113,9 +113,9 @@ Below is a list of endpoints to be implemented. (46/97)
 - [ ] Options (exp dates)
 - [ ] Options (data)
 - [ ] Peers
-- [ ] Previous Day Prices
+- [x] Previous Day Prices
 - [x] Price
-- [ ] Price Target
+- [x] Price Target
 - [ ] Quote
 - [ ] Recommendation Trends
 - [ ] Sector Performance

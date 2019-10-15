@@ -138,11 +138,11 @@ class NewsTest extends BaseTestCase
     /** @test */
     public function it_should_fail_without_a_symbol()
     {
-        $logo = new \Digitonic\IexCloudSdk\Stocks\News($this->client);
+        $news = new \Digitonic\IexCloudSdk\Stocks\News($this->client);
 
         $this->expectException(WrongData::class);
 
-        $logo->get();
+        $news->get();
     }
 
     /** @test
@@ -150,11 +150,11 @@ class NewsTest extends BaseTestCase
      */
     public function it_should_not_allow_less_than_one_item()
     {
-        $logo = new \Digitonic\IexCloudSdk\Stocks\News($this->client);
+        $news = new \Digitonic\IexCloudSdk\Stocks\News($this->client);
 
         $this->expectException(WrongData::class);
 
-        $logo->setSymbol('appl')->take(0)->get();
+        $news->setSymbol('appl')->take(0)->get();
     }
 
     /** @test
@@ -162,11 +162,11 @@ class NewsTest extends BaseTestCase
      */
     public function it_should_not_allow_more_than_50_items()
     {
-        $logo = new \Digitonic\IexCloudSdk\Stocks\News($this->client);
+        $news = new \Digitonic\IexCloudSdk\Stocks\News($this->client);
 
         $this->expectException(WrongData::class);
 
-        $logo->setSymbol('appl')->take(51)->get();
+        $news->setSymbol('appl')->take(51)->get();
     }
 
     /** @test
@@ -174,9 +174,9 @@ class NewsTest extends BaseTestCase
      */
     public function it_can_query_the_news_endpoint()
     {
-        $logo = new \Digitonic\IexCloudSdk\Stocks\News($this->client);
+        $news = new \Digitonic\IexCloudSdk\Stocks\News($this->client);
 
-        $response = $logo->setSymbol('aapl')->take(10)->get();
+        $response = $news->setSymbol('aapl')->take(10)->get();
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertCount(10, $response);
     }
