@@ -116,7 +116,7 @@ Below is a list of endpoints to be implemented. (53/97)
 - [x] Previous Day Prices
 - [x] Price
 - [x] Price Target
-- [ ] Quote
+- [x] Quote
 - [ ] Recommendation Trends
 - [ ] Sector Performance
 - [ ] Splits
