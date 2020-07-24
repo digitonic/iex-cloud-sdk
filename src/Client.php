@@ -40,7 +40,7 @@ class Client implements IEXCloud
     {
         try {
             $options['query'] = $this->mergeQuery($request);
-            return $this->client->send($request);
+            return $this->client->send($request, $options);
         }
         catch (ClientException $e) {
             throw WrongData::invalidValuesProvided($e->getMessage());
