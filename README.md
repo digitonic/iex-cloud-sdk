@@ -13,7 +13,7 @@ A PHP package for accessing the IEX Cloud API. It focuses heavily on the Laravel
 You can install the package via composer:
 
 ```bash
-composer require digitonic/iex-cloud-sdk
+composer require nk19/iex-cloud-sdk
 ```
 
 ## Usage

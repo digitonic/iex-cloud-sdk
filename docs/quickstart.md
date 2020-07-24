@@ -7,7 +7,7 @@ Although the SDK can be used in a standalone application with composer, it works
 You can install the package via composer:
 
 ```bash
-composer require digitonic/iex-cloud-sdk
+composer require nk19/iex-cloud-sdk
 ```
 
 ## Basic Usage 
