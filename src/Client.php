@@ -39,7 +39,9 @@ class Client implements IEXCloud
     public function send(RequestInterface $request, array $options = []): ResponseInterface
     {
         try {
-            $options['query'] = $this->mergeQuery($request);
+            if($request->getMethod() == 'GET') {
+                $options['query'] = $this->mergeQuery($request);
+            }
             return $this->client->send($request, $options);
         }
         catch (ClientException $e) {

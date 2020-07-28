@@ -6,8 +6,9 @@ use Digitonic\IexCloudSdk\Contracts\IEXCloud;
 
 class Generic extends BaseRequest
 {
-    private $endpoint = '';
-    private $params   = '';
+    private $endpoint  = '';
+    private $params    = '';
+    protected $payload = [];
 
     /**
      * Create constructor.
@@ -24,7 +25,14 @@ class Generic extends BaseRequest
      */
     protected function getFullEndpoint(): string
     {
-        return $this->endpoint . ($this->params ? '?' . http_build_query($this->params) : '');
+        return $this->endpoint . $this->getParamsForUrl();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getParamsForUrl() {
+        return $this->method == 'GET' ? ($this->params ? '?' . http_build_query($this->params) : '') : '';
     }
 
     /**
@@ -56,6 +64,17 @@ class Generic extends BaseRequest
      */
     public function setParams(array $params = []) {
         $this->params = $params;
+        return $this;
+    }
+
+    /**
+     * Set payload for post request
+     *
+     * @param $payload
+     * @return Generic
+     */
+    public function setPayload(array $payload = []) {
+        $this->payload = $payload;
         return $this;
     }
 }
