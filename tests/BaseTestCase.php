@@ -11,6 +11,7 @@ use Digitonic\IexCloudSdk\Facades\DataApis\TimeSeries\Query;
 use Digitonic\IexCloudSdk\Facades\ForexCurrencies\ExchangeRates;
 use Digitonic\IexCloudSdk\Facades\ReferenceData\IEXSymbols;
 use Digitonic\IexCloudSdk\Facades\ReferenceData\Symbols;
+use Digitonic\IexCloudSdk\Facades\Stocks\KeyStats;
 use Digitonic\IexCloudSdk\IexCloudSdkServiceProvider;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
@@ -66,6 +67,7 @@ class BaseTestCase extends TestCase
             'DataPoints' => DataPoints::class,
             'Inventory' => Inventory::class,
             'Query' => Query::class,
+            'KeyStats' => KeyStats::class,
         ];
     }
 }
