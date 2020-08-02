@@ -179,6 +179,86 @@ Collection {#275 ▼
 }
 ```
 
+## Key Stats
+
+**Example 1**
+
+```php
+use \Digitonic\IexCloudSdk\Stocks\KeyStats;
+
+$endpoint = new KeyStats($client);
+$response = $endpoint->setSymbol('aapl')->get();
+
+// Laravel
+use \Digitonic\IexCloudSdk\Facades\KeyStats\Quote;
+
+$response = KeyStats::setSymbol('aapl')->get();
+```
+
+**Response 1**
+
+```php
+Collection {#277 ▼
+  #items: array:30 [
+      "companyName" => "Apple Inc."
+      "marketcap" => 760334287200
+      "week52high" => 156.65
+      "week52low" => 93.63
+      "week52change" => 58.801903
+      "sharesOutstanding" => 5213840000
+      "float" => 5203997571
+      "avg10Volume" => 2774000
+      "avg30Volume" => 12774000
+      "day200MovingAvg" => 140.60541
+      "day50MovingAvg" => 156.49678
+      "employees" => 120000
+      "ttmEPS" => 16.5
+      "ttmDividendRate" => 2.25
+      "dividendYield" => 0.021
+      "nextDividendDate" => "2019-03-01"
+      "exDividendDate" => "2019-02-08"
+      "nextEarningsDate" => "2019-01-01"
+      "peRatio" => 14
+      "beta" => 1.25
+      "maxChangePercent" => 153.021
+      "year5ChangePercent" => 0.59025469322
+      "year2ChangePercent" => 0.37774498741429
+      "year1ChangePercent" => 0.39751716851558
+      "ytdChangePercent" => 0.3665949203616
+      "month6ChangePercent" => 0.12208398133748
+      "month3ChangePercent" => 0.084665846658466
+      "month1ChangePercent" => 0.0096685961452833
+      "day30ChangePercent" => -0.0027626056999688
+      "day5ChangePercent" => -0.0057626056999688
+    ]
+
+}
+```
+
+**Example 2**
+
+```php
+use \Digitonic\IexCloudSdk\Stocks\KeyStats;
+
+$endpoint = new KeyStats($client);
+$response = $endpoint->setSymbol('aapl')->only('latestPrice')->get();
+
+// Laravel
+use \Digitonic\IexCloudSdk\Facades\Stocks\KeyStats;
+
+$response = KeyStats::setSymbol('aapl')->only('day50MovingAvg')->get();
+```
+
+**Response 2**
+
+```php
+Collection {#277 ▼
+  #items: array:1 [▼
+      "day50MovingAvg" => 156.49678
+  ]
+}
+```
+
 ## Logo
 
 This is a helper function, but the Google APIs url is standardized.
@@ -372,7 +452,7 @@ $response = $endpoint->setSymbol('aapl')->get();
 // Laravel
 use \Digitonic\IexCloudSdk\Facades\Stocks\Quote;
 
-$response = Price::setSymbol('aapl')->get();
+$response = Quote::setSymbol('aapl')->get();
 ```
 
 **Response 1**
@@ -439,7 +519,7 @@ $response = $endpoint->setSymbol('aapl')->only('latestPrice')->get();
 // Laravel
 use \Digitonic\IexCloudSdk\Facades\Stocks\Quote;
 
-$response = Price::setSymbol('aapl')->only('latestPrice')->get();
+$response = Quote::setSymbol('aapl')->only('latestPrice')->get();
 ```
 
 **Response 2**
