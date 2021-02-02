@@ -134,6 +134,10 @@ Collection {#278 ▼
 
 !> Still to be documented
 
+## Book
+
+!> Still to be documented
+
 ## Company
 
 **Example**
