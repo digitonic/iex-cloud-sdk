@@ -38,7 +38,11 @@ class Client implements IEXCloud
     public function send(RequestInterface $request, array $options = []): ResponseInterface
     {
         try {
-            return $this->client->send($request);
+            parse_str(parse_url($request->getUri(), PHP_URL_QUERY), $query);
+
+            return $this->client->send($request, [
+                'query' => array_merge($this->client->getConfig('query') ?? [], $query)
+            ]);
         }
         catch (ClientException $e) {
             throw WrongData::invalidValuesProvided($e->getMessage());
